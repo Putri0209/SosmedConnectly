@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import api from '../../api/axios'
+import api from '../../utils/axios'
 
 /**
  * AdminComments - Halaman admin untuk meninjau dan memoderasi komentar.
@@ -70,7 +70,6 @@ export default function AdminComments() {
   const formatDate = (d) => new Date(d).toLocaleString('id-ID')
 
   const statusBadge = {
-    active:   <span className="badge bg-success">Aktif</span>,
     flagged:  <span className="badge bg-warning text-dark">Ditandai</span>,
     rejected: <span className="badge bg-danger">Ditolak</span>,
   }
@@ -83,15 +82,13 @@ export default function AdminComments() {
 
       {/* Filter tabs */}
       <div className="btn-group mb-4">
-        {['flagged', 'active', 'rejected', 'all'].map(s => (
+        {['flagged', 'rejected',].map(s => (
           <button
             key={s}
             className={`btn ${filter === s ? 'btn-primary' : 'btn-outline-secondary'}`}
             onClick={() => setFilter(s)}
           >
-            {s === 'flagged' ? '⚠️ Ditandai' :
-             s === 'active'  ? '✅ Aktif'    :
-             s === 'rejected'? '❌ Ditolak'  : '📋 Semua'}
+            {s === 'flagged' ? '⚠️ Ditandai' :'❌ Ditolak'}
           </button>
         ))}
       </div>

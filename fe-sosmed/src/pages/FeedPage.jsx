@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import api from '../api/axios'
+import api from '../utils/axios'
 import ComposePost from '../components/ComposePost'
 import PostCard from '../components/PostCard'
 

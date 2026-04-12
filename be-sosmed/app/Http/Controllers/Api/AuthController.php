@@ -48,7 +48,7 @@ class AuthController extends Controller
         ]);
 
         // Buat token Sanctum untuk user baru
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('token')->plainTextToken;
 
         return response()->json([
             'message' => 'Registrasi berhasil',
@@ -82,7 +82,7 @@ class AuthController extends Controller
 
         // Hapus token lama, buat token baru (single session)
         $user->tokens()->delete();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('token')->plainTextToken;
 
         return response()->json([
             'message' => 'Login berhasil',

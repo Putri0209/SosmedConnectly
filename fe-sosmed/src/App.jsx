@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 
 // Halaman utama
@@ -18,6 +18,7 @@ import AdminBadWords    from './pages/admin/AdminBadWords'
 
 // Layout
 import Navbar from './components/Navbar'
+import AdminLayout from './components/AdminLayout'
 
 /**
  * ProtectedRoute - HOC untuk melindungi route yang membutuhkan autentikasi.
@@ -62,7 +63,7 @@ function AdminRoute({ children }) {
 
   if (!isAuthenticated) return <Navigate to="/login" replace />
   if (!isAdmin) return <Navigate to="/" replace />
-  return children
+  return <AdminLayout>{children}</AdminLayout>
 }
 
 /**
@@ -70,9 +71,11 @@ function AdminRoute({ children }) {
  * Terpisah dari App agar bisa menggunakan useAuth (membutuhkan AuthProvider).
  */
 function AppRoutes() {
+  const location = useLocation()
+  const isAdminPage = location.pathname.startsWith('/admin')
   return (
     <>
-      <Navbar />
+      {!isAdminPage && <Navbar />}
       <Routes>
         {/* Public routes */}
         <Route path="/login"    element={<LoginPage />} />

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { useAuth } from '../context/AuthContext'
-import api from '../api/axios'
+import api from '../utils/axios'
 
 /**
  * ComposePost - Komponen form untuk membuat postingan baru.
@@ -62,9 +62,6 @@ export default function ComposePost({ onPostCreated }) {
       onPostCreated(res.data.post)
 
       // Informasikan jika post di-flag karena bad words
-      if (res.data.is_flagged) {
-        alert('⚠️ Post berhasil dibuat namun sedang ditinjau karena mengandung konten yang tidak pantas.')
-      }
     } catch (err) {
       const errors = err.response?.data?.errors
       if (errors) {

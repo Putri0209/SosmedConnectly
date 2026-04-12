@@ -1,0 +1,1 @@
+export const storageUrl = (path) => `${import.meta.env.VITE_API_URL}/storage/${path}`

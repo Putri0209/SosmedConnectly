@@ -3,22 +3,20 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 /**
- * Navbar - Komponen navigasi utama aplikasi.
+ * Navbar - Komponen navigasi utama untuk halaman user.
  *
  * Menampilkan:
  * - Logo/brand di kiri
- * - Link navigasi berdasarkan status login dan role user
- * - Avatar dan dropdown user menu
- * - Menu khusus admin jika role adalah 'admin'
+ * - Link navigasi: Beranda, Mengikuti, Notifikasi
+ * - Avatar dan dropdown user menu (Profil, Logout)
+ *
+ * Catatan: Navbar TIDAK tampil di halaman admin.
+ * Halaman admin menggunakan AdminSidebar tersendiri.
  */
 export default function Navbar() {
-  const { user, isAuthenticated, isAdmin, logout } = useAuth()
+  const { user, isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
 
-  /**
-   * Handle proses logout.
-   * Memanggil fungsi logout dari context, lalu redirect ke halaman login.
-   */
   const handleLogout = async () => {
     await logout()
     navigate('/login')
@@ -46,7 +44,7 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           {isAuthenticated ? (
             <>
-              {/* Links untuk user yang sudah login */}
+              {/* Links navigasi user */}
               <ul className="navbar-nav mx-auto gap-3 align-items-center">
                 <li className="nav-item mx-5">
                   <Link className="nav-link" to="/">
@@ -63,41 +61,6 @@ export default function Navbar() {
                     <i className="bi bi-bell-fill me-1"></i>Notifikasi
                   </Link>
                 </li>
-
-                {/* Menu admin hanya tampil jika role admin */}
-                {isAdmin && (
-                  <li className="nav-item dropdown">
-                    <a
-                      className="nav-link dropdown-toggle"
-                      href="#"
-                      data-bs-toggle="dropdown"
-                    >
-                      <i className="bi bi-shield-fill me-1 text-danger"></i>Admin
-                    </a>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <Link className="dropdown-item" to="/admin">
-                          <i className="bi bi-speedometer2 me-2"></i>Dashboard
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/admin/posts">
-                          <i className="bi bi-file-post me-2"></i>Kelola Post
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/admin/comments">
-                          <i className="bi bi-chat-dots me-2"></i>Kelola Komentar
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/admin/bad-words">
-                          <i className="bi bi-slash-circle me-2"></i>Bad Words
-                        </Link>
-                      </li>
-                    </ul>
-                  </li>
-                )}
               </ul>
 
               {/* User dropdown menu */}
@@ -108,7 +71,6 @@ export default function Navbar() {
                     data-bs-toggle="dropdown"
                     style={{ borderRadius: '20px' }}
                   >
-                    {/* Avatar atau placeholder */}
                     {user?.avatar_url ? (
                       <img
                         src={user.avatar_url}

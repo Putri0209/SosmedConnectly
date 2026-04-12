@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import api from '../api/axios'
+import api from '../utils/axios'
 import CommentSection from './CommentSection'
 
 /**
@@ -48,9 +48,9 @@ function MediaGallery({ media }) {
           {images.slice(0, 4).map((img, i) => (
             <img
               key={i}
-              src={img.url || `/storage/${img.file_path}`}
+              src={img.url || storageUrl(img.file_path)}
               alt={img.file_name}
-              onClick={() => window.open(img.url || `/storage/${img.file_path}`, '_blank')}
+              onClick={() => window.open(img.url || storageUrl(img.file_path), '_blank')}
             />
           ))}
         </div>
@@ -62,7 +62,7 @@ function MediaGallery({ media }) {
           {files.map((file, i) => (
             <a
               key={i}
-              href={file.url || `/storage/${file.file_path}`}
+              href={file.url || storageUrl(file.file_path)}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-outline-secondary btn-sm me-2 mb-1"

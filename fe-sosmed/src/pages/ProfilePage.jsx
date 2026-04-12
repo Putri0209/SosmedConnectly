@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import api from '../api/axios'
+import api from '../utils/axios'
 import PostCard from '../components/PostCard'
 
 /**
@@ -149,7 +149,7 @@ export default function ProfilePage() {
               <div className="d-flex gap-4 mt-3 pt-3 border-top">
                 <div>
                   <strong>{posts.length}</strong>
-                  <span className="text-muted ms-1 small">Post</span>
+                  <span className="text-muted ms-1 small">Postingan</span>
                 </div>
                 <div>
                   <strong>{profile?.followers_count || 0}</strong>

@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import api from '../api/axios'
+import api from '../utils/axios'
+import { storageUrl } from '../utils/storage'
 
 /**
  * Mengurai hashtag dalam teks menjadi elemen yang bisa diklik.
@@ -185,17 +186,17 @@ function CommentItem({ comment, onDeleted, onUpdated, onHashtagFilter }) {
               {comment.media.filter(m => m.media_type === 'image').map((img, i) => (
                 <img
                   key={i}
-                  src={img.url || `/storage/${img.file_path}`}
+                  src={img.url || storageUrl(img.file_path)}
                   alt={img.file_name}
                   style={{ maxHeight: '150px', borderRadius: '8px', cursor: 'pointer' }}
                   className="me-1"
-                  onClick={() => window.open(img.url || `/storage/${img.file_path}`, '_blank')}
+                  onClick={() => window.open(img.url || storageUrl(img.file_path), '_blank')}
                 />
               ))}
               {comment.media.filter(m => m.media_type === 'file').map((file, i) => (
                 <a
                   key={i}
-                  href={file.url || `/storage/${file.file_path}`}
+                  href={file.url || storageUrl(file.file_path)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-outline-secondary btn-sm me-1 mt-1"

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import api from '../api/axios'
+import api from '../utils/axios'
 
 /**
  * EditProfilePage - Halaman untuk mengedit profil user.

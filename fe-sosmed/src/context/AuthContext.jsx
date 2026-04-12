@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
-import api from '../api/axios'
+import api from '../utils/axios'
 
 /**
  * AuthContext - Context untuk menyimpan dan menyebarkan state autentikasi
@@ -20,7 +20,7 @@ const AuthContext = createContext(null)
  */
 export function AuthProvider({ children }) {
   const [user, setUser]       = useState(null)
-  const [token, setToken]     = useState(localStorage.getItem('auth_token'))
+  const [token, setToken]     = useState(localStorage.getItem('token'))
   const [loading, setLoading] = useState(true)
 
   /**
@@ -29,8 +29,8 @@ export function AuthProvider({ children }) {
    */
   useEffect(() => {
     const initAuth = async () => {
-      const savedToken = localStorage.getItem('auth_token')
-      const savedUser  = localStorage.getItem('auth_user')
+      const savedToken = localStorage.getItem('token')
+      const savedUser  = localStorage.getItem('user')
 
       if (savedToken && savedUser) {
         try {
@@ -40,8 +40,8 @@ export function AuthProvider({ children }) {
           setToken(savedToken)
         } catch {
           // Token tidak valid, bersihkan localStorage
-          localStorage.removeItem('auth_token')
-          localStorage.removeItem('auth_user')
+          localStorage.removeItem('token')
+          localStorage.removeItem('user')
           setUser(null)
           setToken(null)
         }
@@ -59,8 +59,8 @@ export function AuthProvider({ children }) {
    * @param {Object} newUser Data user dari response API
    */
   const login = useCallback((newToken, newUser) => {
-    localStorage.setItem('auth_token', newToken)
-    localStorage.setItem('auth_user', JSON.stringify(newUser))
+    localStorage.setItem('token', newToken)
+    localStorage.setItem('user', JSON.stringify(newUser))
     setToken(newToken)
     setUser(newUser)
   }, [])
@@ -74,8 +74,8 @@ export function AuthProvider({ children }) {
     } catch {
       // Abaikan error logout (token mungkin sudah expired)
     } finally {
-      localStorage.removeItem('auth_token')
-      localStorage.removeItem('auth_user')
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
       setToken(null)
       setUser(null)
     }
@@ -88,7 +88,7 @@ export function AuthProvider({ children }) {
    */
   const updateUser = useCallback((updatedUser) => {
     setUser(updatedUser)
-    localStorage.setItem('auth_user', JSON.stringify(updatedUser))
+    localStorage.setItem('user', JSON.stringify(updatedUser))
   }, [])
 
   const value = {

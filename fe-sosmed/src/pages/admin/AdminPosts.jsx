@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import api from '../../api/axios'
+import api from '../../utils/axios'
 
 /**
  * AdminPosts - Halaman admin untuk meninjau dan memoderasi post.
  *
  * Fitur:
- * - Filter post berdasarkan status (semua, flagged, active, rejected)
- * - Approve post yang di-flag (kembalikan ke active)
+ * - Filter post berdasarkan status (flagged,rejected)
  * - Reject post dengan alasan yang dicatat
  * - Tampilkan konten post, user, dan tanggal
  */
@@ -40,7 +39,6 @@ export default function AdminPosts() {
 
   /**
    * Menyetujui (approve) post yang di-flag.
-   * Post akan dikembalikan ke status 'active'.
    *
    * @param {number} postId ID post yang di-approve
    */
@@ -80,7 +78,6 @@ export default function AdminPosts() {
   const formatDate = (dateStr) => new Date(dateStr).toLocaleString('id-ID')
 
   const statusBadge = {
-    active:   <span className="badge bg-success">Aktif</span>,
     flagged:  <span className="badge bg-warning text-dark">Ditandai</span>,
     rejected: <span className="badge bg-danger">Ditolak</span>,
   }
@@ -93,15 +90,13 @@ export default function AdminPosts() {
 
       {/* Filter tabs */}
       <div className="btn-group mb-4" role="group">
-        {['flagged', 'active', 'rejected', 'all'].map(s => (
+        {['flagged', 'rejected'].map(s => (
           <button
             key={s}
             className={`btn ${filter === s ? 'btn-primary' : 'btn-outline-secondary'}`}
             onClick={() => setFilter(s)}
           >
-            {s === 'flagged' ? '⚠️ Ditandai' :
-             s === 'active'  ? '✅ Aktif'    :
-             s === 'rejected'? '❌ Ditolak'  : '📋 Semua'}
+            {s === 'flagged' ? '⚠️ Ditandai' : '❌ Ditolak'}
           </button>
         ))}
       </div>

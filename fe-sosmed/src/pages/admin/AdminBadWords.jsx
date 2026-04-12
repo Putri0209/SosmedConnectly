@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import api from '../../api/axios'
+import api from '../../utils/axios'
 
 /**
  * AdminBadWords - Halaman admin untuk mengelola daftar kata terlarang.
