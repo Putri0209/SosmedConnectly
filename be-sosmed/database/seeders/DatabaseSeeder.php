@@ -57,13 +57,6 @@ class DatabaseSeeder extends Seeder
             'tolol',
             'babi',
             'anjing',
-            'kontol',
-            'memek',
-            'fuck',
-            'shit',
-            'bastard',
-            'asshole',
-            'damn',
         ];
 
         foreach ($badWords as $word) {
