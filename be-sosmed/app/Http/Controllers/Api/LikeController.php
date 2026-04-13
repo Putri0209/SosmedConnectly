@@ -21,6 +21,11 @@ class LikeController extends Controller
         if ($like) {
             // Unlike
             $like->delete();
+             $post->user->notifications()
+                ->where('type', PostLiked::class)
+                ->whereJsonContains('data->post_id', $post->id)
+                ->whereJsonContains('data->actor_id', $user->id)
+                ->delete();
             return response()->json([
                 'message' => 'Post unliked',
                 'is_liked' => false,
@@ -32,7 +37,7 @@ class LikeController extends Controller
                 'user_id' => $user->id,
                 'post_id' => $post->id,
             ]);
-            
+
             // Notify owner
             if ($post->user_id !== $user->id) {
                 // Avoid redundant notifications, only send if they didn't already get one recently, or just send it:
